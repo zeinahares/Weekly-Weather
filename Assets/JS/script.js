@@ -301,8 +301,7 @@ $("#clear-btn").on('click', function (){
 
 // XX - GIVEN a weather dashboard with form inputs
 // XX - WHEN I search for a city
-// XX - THEN I am presented with current and future conditions for that city
-// XX - THEN and that city is added to the search history
+// XX - THEN I am presented with current and future conditions for that city and that city is added to the search history
 // XX - WHEN I view current weather conditions for that city
 // XX - THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, and the wind speed
 // XX - WHEN I view future weather conditions for that city

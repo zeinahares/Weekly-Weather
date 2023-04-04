@@ -16,7 +16,7 @@ N/A
 When you open the website you are presented with a weather dashboard showing the forecast of Sydney with a search input to search for other cities.
 When you search for a city, then you are presented with current and future conditions for that city. That city is also added to the search history and printed on the page.
 When you view the current weather conditions for that city, then you are presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, and the wind speed.
-If you click on a city in the search history then you are again presented with current and future conditions for that city
+If you click on a city in the search history then you are again presented with current and future conditions for that city. If you leave the website and come back, your search history will be there waiting for you. If you wanted to start a new saved list, just press clear History and start over!
 
 ![Screenshot of Website](./Assets/Images/website-screenshot.png)
 
