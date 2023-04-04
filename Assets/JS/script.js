@@ -73,6 +73,17 @@ function coordinatesFetch(coordinatesURL) {
         .then(function (data) {
             console.log(data);
 
+            // return and removed saved history item if input doesnt return a result
+            if (data.length === 0) {
+                $('#search').val("");
+                let lastHistory = historyArray.length -1;
+
+                historyArray.splice(lastHistory, 1);
+                localStorage.setItem(historyKey, JSON.stringify(historyArray));
+                savePrintHistory();
+
+                return;
+            }
             // save long and lat and feed to fetchWeather
             let inputLat = data[0].lat;
             let inputLon = data[0].lon;
