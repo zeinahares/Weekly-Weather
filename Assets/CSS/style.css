@@ -33,7 +33,7 @@ main {
     gap: 5px;
 }
 
-input {
+#search {
     border-radius: 10px;
     padding: 10px;
 }
@@ -67,6 +67,16 @@ input {
     border-style: solid;
     margin: 10px;
     border-radius: 10px;
+    background-color: rgb(204, 215, 215);
+    align-items: center;
+}
+
+.title {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
 }
 
 #future-container {
@@ -78,15 +88,16 @@ input {
 
 .weather-card {
     display: flex;
-    width: 13%;
+    width: 18%;
     flex-wrap: wrap;
     flex-direction: column;
-    padding: 15px;
+    padding: 4px;
     background-color: rgb(8, 8, 73);
     border-radius: 10px;
     color: white;
-    margin: 15px;
-    height: 45%;
+    height: auto;
+    margin: 2px;
+    align-content: center;
 }
 
 #history-list {
@@ -105,4 +116,8 @@ input {
 
 hr {
     width: 100%;
+}
+
+.icon {
+    width: 70px;
 }
