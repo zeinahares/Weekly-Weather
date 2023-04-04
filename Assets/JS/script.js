@@ -22,6 +22,8 @@ const latPararameter = 'lat=';
 const lonPararameter = '&lon=';
 const metricParameter = '&units=metric'
 
+let historyArray = [];
+const historyKey = "History List";
 // let fivedayExampleURL = fivedayBaseURL + latPararameter + '-33.8698439'
 //     + lonPararameter + '151.2082848' + APIParameter;
 
@@ -33,6 +35,18 @@ const metricParameter = '&units=metric'
 //     .then(function (data) {
 //         console.log(data);
 //     });
+
+
+renderHomepage();
+savePrintHistory();
+
+
+
+// function - init homepage to sydney
+function renderHomepage() {
+    let coordinatesURL = coordinatesBaseURL + 'Sydney' + coordinatesLimitPar + '1' + APIParameter;
+    coordinatesFetch(coordinatesURL);
+}
 
 // function - generate coordinates URL from search
 function coordinatesURLfromSearch() {
@@ -49,15 +63,6 @@ function coordinatesURLfromSearch() {
     let coordinatesURL = coordinatesBaseURL + cityQuery + coordinatesLimitPar + '1' + APIParameter;
     coordinatesFetch(coordinatesURL);
 }
-
-// NEEDS REVIEW - function - generate coordinates URL from button
-
-// function coordinatesURLfromHistory() {
-//     let cityQuery = $(this).text();
-//     let coordinatesURL = coordinatesBaseURL + cityQuery + coordinatesLimitPar + '1' + APIParameter;
-//     coordinatesFetch(coordinatesURL);
-// }
-
 
 // function - event listener Fetch city coordinates from search, feed to weather fetch
 function coordinatesFetch(coordinatesURL) {
@@ -86,7 +91,7 @@ $('#search').on('keypress', function (event) {
     // if user presses enter on the page, fetch the coordinates
     // console.log(event.keyCode);
     if (event.keyCode === 13) {
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
         coordinatesURLfromSearch();
     }
 });
@@ -164,8 +169,8 @@ function fetchWeather(fivedayURL) {
             // index now points to the next day at the same time
             let index = (8 - nowsTime[0] / 3);
 
-            console.log("Index is");
-            console.log(index);
+            // console.log("Index is");
+            // console.log(index);
 
 
             let counter = 0;
@@ -181,7 +186,7 @@ function fetchWeather(fivedayURL) {
                 const futureDateTimeArray = futureDateTime.split(" ");
                 // reformat date given to be day-month-year
                 let futureDate = futureDateTimeArray[0].split("-");
-                dateEl.text(futureDate [2] + '/' + futureDate [1] + '/' + futureDate [0]);
+                dateEl.text(futureDate[2] + '/' + futureDate[1] + '/' + futureDate[0]);
 
                 futureDayEl.append(dateEl);
 
@@ -214,27 +219,83 @@ function fetchWeather(fivedayURL) {
                 counter++;
             }
 
-
+            $('#search').val("");
         });
 
 
 
 }
 
+$('#submit-btn').on('click', savePrintHistory);
+
+$('#search').on('keypress', function (event) {
+    // if user presses enter on the page, fetch the coordinates
+    // console.log(event.keyCode);
+    if (event.keyCode === 13) {
+        // console.log(event.keyCode);
+        savePrintHistory();
+    }
+});
 // function - event listener save search to local storage & append
+function savePrintHistory(event) {
+    historyArray = JSON.parse(localStorage.getItem(historyKey)) || [];
+    let historyItem = $('#search').val();
+
+    // is item exists in array, dont store it again
+    if (historyArray.length != 0) {
+        for (let i = 0; i < historyArray.length; i++) {
+            if (historyItem.toLowerCase() === historyArray[i].toLowerCase()) {
+                return;
+            }
+        }
+    }
+
+    // is input is empty, dont push
+    if (historyItem != "") {
+        historyArray.push(historyItem);
+        localStorage.setItem(historyKey, JSON.stringify(historyArray));
+    }
+
+
+    $('#history-list').html("");
+
+    // print all array elements
+    for (let i = 0; i < historyArray.length; i++) {
+
+        let historyEl = $('<button class="history-btn">');
+        historyEl.text(historyArray[i]);
+        $('#history-list').append(historyEl);
+    }
+
+}
 
 // function - event listener for search history buttons
+$(document).on('click', '.history-btn', function () {
 
-// optional - init homepage to sydney?
+    let cityName = $(this).text();
+    let cityQuery = cityName.replace(/ /g, '+');
+
+    let coordinatesURL = coordinatesBaseURL + cityQuery + coordinatesLimitPar + '1' + APIParameter;
+    coordinatesFetch(coordinatesURL);
+
+});
+
+$("#clear-btn").on('click', function (){
+
+    historyArray = [];
+    localStorage.setItem(historyKey, JSON.stringify(historyArray));
+    savePrintHistory();
+
+});
 
 // XX - GIVEN a weather dashboard with form inputs
 // XX - WHEN I search for a city
-// XX - THEN I am presented with current and future conditions for that city 
-// THEN and that city is added to the search history
+// XX - THEN I am presented with current and future conditions for that city
+// XX - THEN and that city is added to the search history
 // XX - WHEN I view current weather conditions for that city
 // XX - THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, and the wind speed
 // XX - WHEN I view future weather conditions for that city
 // XX - THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-// WHEN I click on a city in the search history
-// THEN I am again presented with current and future conditions for that city
+// XX - WHEN I click on a city in the search history
+// XX - THEN I am again presented with current and future conditions for that city
 

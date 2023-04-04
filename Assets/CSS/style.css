@@ -106,6 +106,7 @@ main {
     width: 100%;
     flex-wrap: wrap;
     flex-direction: column;
+    gap: 5px;
 }
 
 .history-btn {
