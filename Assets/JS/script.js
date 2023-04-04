@@ -43,7 +43,7 @@ function coordinatesURLfromSearch() {
         return;
     }
 
-    let cityQuery = cityInput.replace(/ /g, '');
+    let cityQuery = cityInput.replace(/ /g, '+');
 
     // place city value in URL & fetch
     let coordinatesURL = coordinatesBaseURL + cityQuery + coordinatesLimitPar + '1' + APIParameter;
