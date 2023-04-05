@@ -76,12 +76,6 @@ function coordinatesFetch(coordinatesURL) {
             // return and removed saved history item if input doesnt return a result
             if (data.length === 0) {
                 $('#search').val("");
-                let lastHistory = historyArray.length -1;
-
-                historyArray.splice(lastHistory, 1);
-                localStorage.setItem(historyKey, JSON.stringify(historyArray));
-                savePrintHistory();
-
                 return;
             }
             // save long and lat and feed to fetchWeather
@@ -92,6 +86,7 @@ function coordinatesFetch(coordinatesURL) {
             let fivedayURL = fivedayBaseURL + latPararameter + inputLat
                 + lonPararameter + inputLon + metricParameter + APIParameter;
 
+            savePrintHistory();
             fetchWeather(fivedayURL);
         });
 }
@@ -237,18 +232,8 @@ function fetchWeather(fivedayURL) {
 
 }
 
-$('#submit-btn').on('click', savePrintHistory);
-
-$('#search').on('keypress', function (event) {
-    // if user presses enter on the page, fetch the coordinates
-    // console.log(event.keyCode);
-    if (event.keyCode === 13) {
-        // console.log(event.keyCode);
-        savePrintHistory();
-    }
-});
 // function - event listener save search to local storage & append
-function savePrintHistory(event) {
+function savePrintHistory() {
     historyArray = JSON.parse(localStorage.getItem(historyKey)) || [];
     let historyItem = $('#search').val();
 
